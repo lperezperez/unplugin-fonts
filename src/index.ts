@@ -5,7 +5,6 @@ import { createUnplugin } from 'unplugin'
 import { getHeadLinkTags } from './loaders'
 import { customVirtualModule } from './loaders/custom'
 import { fontsourceImports, fontsourceVirtualModule } from './loaders/fontsource'
-import { HtmlTagDescriptor } from 'vite'
 
 const virtualStylesId = 'unfonts.css'
 const resolvedVirtualStylesId = `\0${virtualStylesId}`
@@ -90,10 +89,7 @@ export default createUnplugin<Options | undefined>((userOptions) => {
           const files = Object.keys(ctx.bundle ?? {}).filter(key => fontFileRegex.test(key))
           const { prefetch: wantPrefetch, preload: wantPreload } = options?.custom || {}
           for (const file of files) {
-            if (!(
-              wantPrefetch === true || wantPreload === true ||
-              (wantPrefetch === undefined && wantPreload === undefined)
-            ))
+            if (!(wantPrefetch === true || wantPreload === true || (wantPrefetch === undefined && wantPreload === undefined)))
               continue
             const ext = extname(file)
             tags.push({
@@ -111,11 +107,10 @@ export default createUnplugin<Options | undefined>((userOptions) => {
           let tagsReturned = tags
           if (options?.custom?.linkFilter) {
             const newTags = options?.custom?.linkFilter(tags)
-            if (Array.isArray(newTags)) {
+            if (Array.isArray(newTags))
               tagsReturned = newTags
-            } else {
+            else
               tagsReturned = newTags ? tags : []
-            }
           }
           return tagsReturned
         },
@@ -139,10 +134,7 @@ function generateVitepressBundle(
   const files = Object.keys(bundle ?? {}).filter(key => fontFileRegex.test(key))
   const { prefetch: wantPrefetch, preload: wantPreload } = options?.custom || {}
   for (const file of files) {
-    if (!(
-      wantPrefetch === true || wantPreload === true ||
-      (wantPrefetch === undefined && wantPreload === undefined)
-    ))
+    if (!(wantPrefetch === true || wantPreload === true || (wantPrefetch === undefined && wantPreload === undefined)))
       continue
 
     const ext = extname(file)
@@ -162,11 +154,10 @@ function generateVitepressBundle(
   let tagsReturned = tags
   if (options?.custom?.linkFilter) {
     const newTags = options?.custom?.linkFilter(tags)
-    if (Array.isArray(newTags)) {
+    if (Array.isArray(newTags))
       tagsReturned = newTags
-    } else {
+    else
       tagsReturned = newTags ? tags : []
-    }
   }
 
   for (const tag of tagsReturned) {

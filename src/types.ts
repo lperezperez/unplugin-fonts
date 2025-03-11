@@ -1,4 +1,4 @@
-import { HtmlTagDescriptor } from "vite"
+import type { HtmlTagDescriptor } from 'vite'
 
 export interface Options {
   custom?: CustomFonts
@@ -13,6 +13,7 @@ export interface CustomFontFace {
   name: string
   basename: string
   weight: number
+  stretch: string
   style: string
   display: string
   local?: string | string[]
@@ -79,6 +80,14 @@ export interface CustomFonts {
    * @default 'auto'
    */
   display?: 'auto' | 'block' | 'swap' | 'fallback' | 'optional'
+
+  /**
+   * Defines the default `font-stretch` value used for the generated
+   * `@font-rule` classes.
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-stretch
+   * @default 'normal'
+   */
+  stretch?: 'normal' | 'ultra-condensed' | 'extra-condensed' | 'condensed' | 'semi-condensed' | 'semi-expanded' | 'expanded' | 'extra-expanded' | 'ultra-expanded'
 
   /**
    * Using `<link rel="preload">` will trigger a request for the WebFont

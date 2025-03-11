@@ -12,7 +12,9 @@ function resolveUserOption(options: CustomFonts): ResolvedCustomFonts {
     prefetchPrefix = '',
     prefetch = false,
     injectTo = 'head-prepend',
+    linkFilter = tags => tags,
     display = 'auto',
+    stretch = 'normal',
     stripPrefix = 'public/',
   } = options
 
@@ -31,7 +33,9 @@ function resolveUserOption(options: CustomFonts): ResolvedCustomFonts {
     prefetchPrefix,
     prefetch,
     injectTo,
+    linkFilter,
     display,
+    stretch,
     stripPrefix,
   }
 }
@@ -113,6 +117,7 @@ function resolveFontFiles(family: CustomFontFamily, options: ResolvedCustomFonts
         name: family.name,
         basename,
         weight: extractWeight(basename),
+        stretch: extractStretch(basename),
         style: extractStyle(basename),
         local: family.local,
         display: options.display,
@@ -177,6 +182,29 @@ function extractWeight(filename?: string) {
   return 400
 }
 
+function extractStretch(filename?: string) {
+  if (!filename)
+    return 'normal'
+  filename = filename.toLowerCase()
+  if (filename.includes('ultracondensed'))
+    return 'ultra-condensed'
+  if (filename.includes('extracondensed'))
+    return 'extra-condensed'
+  if (filename.includes('semicondensed'))
+    return 'semi-condensed'
+  if (filename.includes('condensed'))
+    return 'condensed'
+  if (filename.includes('ultraexpanded'))
+    return 'ultra-expanded'
+  if (filename.includes('extraexpanded'))
+    return 'extra-expanded'
+  if (filename.includes('semiexpanded'))
+    return 'semi-expanded'
+  if (filename.includes('expanded'))
+    return 'expanded'
+  return 'normal'
+}
+
 function extractStyle(filename?: string) {
   if (!filename)
     return 'normal'
@@ -211,11 +239,12 @@ function generateFontCSS(face: CustomFontFace) {
   // --- Return CSS rule as string.
   return [
     '@font-face {',
-    `  font-family: '${face.name}';`,
-    `  src: ${[srcs, locals].filter(Boolean).join(',')};`,
-    `  font-weight: ${face.weight};`,
-    `  font-style: ${face.style};`,
     `  font-display: ${face.display};`,
+    `  font-family: '${face.name}';`,
+    `  font-stretch: ${face.stretch};`,
+    `  font-style: ${face.style};`,
+    `  font-weight: ${face.weight};`,
+    `  src: ${[srcs, locals].filter(Boolean).join(',')};`,
     '}',
   ].join('\n')
 }
