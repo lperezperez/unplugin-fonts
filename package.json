@@ -1,10 +1,8 @@
 {
-  "name": "unplugin-fonts",
-  "version": "1.3.1",
+  "name": "unplugin-fonts-with-stretch",
+  "version": "1.3.2",
   "description": "Universal Webfont loader",
-  "author": {
-    "name": "cssninjaStudio <hello@cssninja.io> (https://cssninja.io)"
-  },
+  "author": { "name": "cssninjaStudio <hello@cssninja.io> (https://cssninja.io)" },
   "license": "MIT",
   "repository": "cssninjaStudio/unplugin-fonts",
   "keywords": [
@@ -17,7 +15,9 @@
     "nuxt",
     "vite",
     "vitepress",
-    "astro-integration"
+    "astro-integration",
+    "font-stretch",
+    "stretch"
   ],
   "exports": {
     ".": {
